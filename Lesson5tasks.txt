@@ -1,0 +1,41 @@
+1. Создание ссылок: - создать файл file1 и наполнить его произвольным содержимым. - скопировать файл file1 в file2. - создать символическую ссылку file3 на file1. - создать жесткую ссылку file4 на file1. - посмотреть, какие айноды у файлов. - удалить file1. Что стало с остальными созданными файлами? Попробовать вывести их содержимое на экран. - удалить все остальные файлы
+
+
+
+habibulinv@habibulinv-VirtualBox:~$ cat > file1.txt
+habibulinv@habibulinv-VirtualBox:~$ cp file1.txt file2.txt
+habibulinv@habibulinv-VirtualBox:~$ ln -s file1.txt file3.txt
+habibulinv@habibulinv-VirtualBox:~$ ln file1.txt file4.txt
+
+Айноды
+151330 -rw-rw-r-- 2 habibulinv habibulinv   196 авг 30 22:15  file1.txt
+146720 -rw-rw-r-- 1 habibulinv habibulinv   196 авг 30 22:16  file2.txt
+135466 lrwxrwxrwx 1 habibulinv habibulinv     9 авг 30 22:25  file3.txt -> file1.txt
+151330 -rw-rw-r-- 2 habibulinv habibulinv   196 авг 30 22:15  file4.txt
+
+После удаление file1, на экран выводится текст только из file2 и file4.
+—file3.txt: Нет такого файла или каталога
+
+
+ 2. Работа со ссылками: - создать файл file1 и наполнить его произвольным содержимым. - создать символическую ссылку file1_link, указывающую на этот файл. - переместить ссылку в другую директорию. Работает ли она? Почему? Если не работает, как сделать так, чтобы работала?
+
+habibulinv@habibulinv-VirtualBox:~$ cat > file1.txt
+
+habibulinv@habibulinv-VirtualBox:~$ ln -s file1.txt file1_ink.txt (так не работает)
+
+Как надо:
+habibulinv@habibulinv-VirtualBox:~$ cd /usr/
+habibulinv@habibulinv-VirtualBox:/usr$ sudo ln -s /home/habibulinv/file1.txt file_link.txt
+
+
+ 3. Права файлов: - создать два произвольных файла. - первому файлу присвоить права на чтение, запись для владельца и группы; на чтение для всех. Сделать это в численном и символьном виде. - второму файлу присвоить права на чтение, запись только для владельца. Сделать это в численном и символьном виде.
+
+habibulinv@habibulinv-VirtualBox:~$ touch pop1.txt pop2.txt
+
+habibulinv@habibulinv-VirtualBox:~$ chmod ugo+r pop1.txt
+habibulinv@habibulinv-VirtualBox:~$ chmod ug+w pop1.txt
+habibulinv@habibulinv-VirtualBox:~$ chmod 664 pop1.txt
+
+habibulinv@habibulinv-VirtualBox:~$ chmod u+rw pop2.txt
+habibulinv@habibulinv-VirtualBox:~$ chmod og-rwx pop2.txt
+habibulinv@habibulinv-VirtualBox:~$ chmod 600 pop2.txt
