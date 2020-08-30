@@ -1,0 +1,40 @@
+1. Прочитать в методическом пособии о сигналах.
+Запустить в одном терминале программу nano. В другом терминале посмотреть PID процесса (используйте ps aux) и остановить с помощью kill, посылая разные типы сигналов (SIGHUP, SIGTERM, SIGSEGV, SIGILL). Чем отличается завершение программы в зависимости от сигнала?
+
+habibulinv@habibulinv-VirtualBox:~$ nano
+habibulinv@habibulinv-VirtualBox:~$ ps aux | grep nano
+	habibul+    5967  0.0  0.1  18312  3888 pts/1    S+   17:36   0:00 nano
+
+Сигнал SIGHUP
+habibulinv@habibulinv-VirtualBox:~$ kill -n 1 5967
+	Получен SIGHUP или SIGTERM
+
+Сигнал SIGTERM
+habibulinv@habibulinv-VirtualBox:~$ kill -n 15 6096 (каждый раз убивая nano ей выдавался новый идентификатор)
+	Получен SIGHUP или SIGTERM
+
+Сигнал SIGSEGV
+habibulinv@habibulinv-VirtualBox:~$ kill -n 11 6100	
+	Произошло аварийное завершение Nano!  Код: 11.  Пожалуйста, сообщите об ошибке.
+
+Сигнал SIGILL
+habibulinv@habibulinv-VirtualBox:~$ kill -n 4 6105
+	Недопустимая инструкция (стек памяти сброшен на диск)
+
+
+Сигнал SIGKILL
+habibulinv@habibulinv-VirtualBox:~$ kill -n 4 6105
+	Убито
+
+
+2. Самостоятельно найти информацию о том, какой сигнал посылается запущенной программе при нажатии комбинации ctrl+c и ctrl+d. Создайте файл при помощи команды cat > file_name, напишите текст и завершите комбинацией ctrl+d. Какой сигнал передадим процессу?
+ctrl+c - отправляет сигнал SIGINT
+ctrl+d - закрывает bash. Отправляет маркер EOF (конец файла) в bash, и bash завершает работу.
+
+
+3. Изменить конфигурационный файл службы SSH: /etc/ssh/sshd_config, отключив аутентификацию по паролю PasswordAuthentication no. Выполните рестарт службы systemctl restart sshd (service sshd restart), верните аутентификацию по паролю, выполните reload службы systemctl reload sshd (services sshd reload). В чём различие между действиями restart и reload?
+
+Restart останвливает службу и заново запускает. Reload даёт команду службе перечитать файлы конфигурации без остановки работы. reload = продолжить работу + перечитать файлы конфигурации
+В случае с etc/ssh/sshd_config команда restart перезапускает конфигурацию, а reload - перечитывает.
+
+
